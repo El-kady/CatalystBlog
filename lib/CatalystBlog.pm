@@ -21,6 +21,11 @@ use Catalyst qw/
     ConfigLoader
     Static::Simple
     StackTrace
+    Upload::MD5
+    Authentication
+    Session
+    Session::Store::File
+    Session::State::Cookie
 /;
 
 extends 'Catalyst';
@@ -41,6 +46,16 @@ __PACKAGE__->config(
     # Disable deprecated behavior needed by old applications
     disable_component_resolution_regex_fallback => 1,
     enable_catalyst_header => 1, # Send X-Catalyst header
+);
+
+__PACKAGE__->config(
+    'Plugin::Authentication' => {
+        default => {
+            class           => 'SimpleDB',
+            user_model      => 'DB::User',
+            password_type   => 'clear',
+        },
+    },
 );
 
 # Start the application

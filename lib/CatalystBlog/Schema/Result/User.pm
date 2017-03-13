@@ -41,9 +41,16 @@ __PACKAGE__->table("users");
 =head2 id
 
   data_type: 'integer'
+  is_auto_increment: 1
   is_nullable: 0
 
-=head2 username
+=head2 name
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 50
+
+=head2 email
 
   data_type: 'varchar'
   is_nullable: 1
@@ -52,42 +59,20 @@ __PACKAGE__->table("users");
 =head2 password
 
   data_type: 'char'
-  is_nullable: 1
+  is_nullable: 0
   size: 32
-
-=head2 email
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 50
-
-=head2 first_name
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 30
-
-=head2 last_name
-
-  data_type: 'varchar'
-  is_nullable: 1
-  size: 30
 
 =cut
 
 __PACKAGE__->add_columns(
   "id",
-  { data_type => "integer", is_nullable => 0 },
-  "username",
-  { data_type => "varchar", is_nullable => 1, size => 50 },
-  "password",
-  { data_type => "char", is_nullable => 1, size => 32 },
+  { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
+  "name",
+  { data_type => "varchar", is_nullable => 0, size => 50 },
   "email",
   { data_type => "varchar", is_nullable => 1, size => 50 },
-  "first_name",
-  { data_type => "varchar", is_nullable => 1, size => 30 },
-  "last_name",
-  { data_type => "varchar", is_nullable => 1, size => 30 },
+  "password",
+  { data_type => "char", is_nullable => 0, size => 32 },
 );
 
 =head1 PRIMARY KEY
@@ -103,8 +88,8 @@ __PACKAGE__->add_columns(
 __PACKAGE__->set_primary_key("id");
 
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-13 20:14:33
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:54jZQBnQJxBQPIWRGfmoig
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-13 21:04:15
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:yum+03gdMRc1POFRycizNQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
