@@ -28,7 +28,7 @@ sub base :Chained('/') :PathPart('login') :CaptureArgs(0) {
 
 sub form_create :Chained('base') :PathPart("") :Args(0) {
     my ($self, $c) = @_;
-    $c->stash(template => "login.html");
+    $c->stash(template => "frontend/login.html");
 }
 
 sub form_create_do :Chained('base') :PathPart("try") :Args(0) {

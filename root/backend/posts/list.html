@@ -1,0 +1,21 @@
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Options</th>
+    </tr>
+    </thead>
+    <tbody>
+    [% FOREACH post IN posts -%]
+        <tr>
+            <td>
+                <a target="_blank" href="[% c.uri_for(c.controller('view').action_for('index'),post.id) %]">[% post.title %]</a>
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    [% END -%]
+    </tbody>
+</table>

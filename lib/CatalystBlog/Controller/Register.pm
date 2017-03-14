@@ -30,7 +30,7 @@ sub base :Chained('/') :PathPart('register') :CaptureArgs(0) {
 
 sub form_create :Chained('base') :PathPart("") :Args(0) {
     my ($self, $c) = @_;
-    $c->stash(template => "register.html");
+    $c->stash(template => "frontend/register.html");
 }
 
 sub form_create_do :Chained('base') :PathPart("save") :Args(0) {
