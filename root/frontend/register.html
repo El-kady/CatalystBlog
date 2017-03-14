@@ -1,6 +1,6 @@
 [% page.title = 'Register' %]
 
-<form method="post" class="form-signin" action="[% c.uri_for('save') %]">
+<form method="post" class="form-signin" action="[%c.uri_for(c.controller('register').action_for('save')) %]">
   <h2 class="form-signin-heading">Create An Account</h2>
 
     [% IF c.flash.error_msg -%]

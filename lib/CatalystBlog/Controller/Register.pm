@@ -1,8 +1,7 @@
 package CatalystBlog::Controller::Register;
 use Moose;
 use namespace::autoclean;
-use Digest::MD5 qw(md5);
-use Digest::SHA qw(sha1);
+use Digest::MD5 qw(md5_hex);
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -28,12 +27,12 @@ sub base :Chained('/') :PathPart('register') :CaptureArgs(0) {
     $c->stash(resultset => $c->model('DB::User'));
 }
 
-sub form_create :Chained('base') :PathPart("") :Args(0) {
+sub index :Chained('base') :PathPart("") :Args(0) {
     my ($self, $c) = @_;
     $c->stash(template => "frontend/register.html");
 }
 
-sub form_create_do :Chained('base') :PathPart("save") :Args(0) {
+sub save :Chained('base') :PathPart("save") :Args(0) {
     my ($self, $c) = @_;
 
     my $name = $c->request->params->{name} || "";
@@ -47,7 +46,7 @@ sub form_create_do :Chained('base') :PathPart("save") :Args(0) {
             my $user = $c->model('DB::User')->create({
                 name => $name,
                 email => $email,
-                password => $password
+                password => md5_hex($password)
             });
 
             $c->response->redirect($c->uri_for("/login"));

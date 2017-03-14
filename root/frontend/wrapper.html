@@ -17,10 +17,17 @@
 <div class="blog-masthead">
     <div class="container">
         <nav class="blog-nav">
-            <a class="blog-nav-item" href="/">Home</a>
-            <a class="blog-nav-item" href="/login">Login</a>
-            <a class="blog-nav-item" href="/register">Register</a>
-            <a class="blog-nav-item" href="/addpost">Add Post</a>
+            <a class="blog-nav-item" href="[%c.uri_for('/') %]"><span class="glyphicon glyphicon-home"></span> Home</a>
+            [% IF c.user %]
+                [% IF c.user.manager %]
+                    <a class="blog-nav-item" href="[%c.uri_for(c.controller('dashboard').action_for('index')) %]"><span class="glyphicon glyphicon-cog"></span> Admin Panel</a>
+                [% END %]
+                <a class="blog-nav-item" href="[%c.uri_for(c.controller('logout').action_for('index')) %]"><span class="glyphicon glyphicon-remove"></span> logout ([% c.user.name %])</a>
+            [% ELSE %]
+                <a class="blog-nav-item" href="[%c.uri_for(c.controller('login').action_for('index')) %]"><span class="glyphicon glyphicon-user"></span> Login</a>
+                <a class="blog-nav-item" href="[%c.uri_for(c.controller('register').action_for('index')) %]"><span class="glyphicon glyphicon-plus"></span> Register</a>
+            [% END %]
+
         </nav>
     </div>
 </div>
