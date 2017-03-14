@@ -1,11 +1,19 @@
-<form method="post" action="/posts/do_create">
+<form method="post" action="[%c.uri_for(c.controller.action_for('do_create')) %]">
+
+    [% IF c.flash.error_msg -%]
+    <div class="alert alert-danger">
+        [% c.flash.error_msg %]
+    </div>
+    [% END -%]
+
     <div class="form-group">
         <label for="InputTitle">Title</label>
-        <input type="text" class="form-control" id="InputTitle" placeholder="Post Title">
+        <input name="title" value="[% post.title %]" type="text" class="form-control" id="InputTitle" placeholder="Post Title">
     </div>
     <div class="form-group">
         <label for="InputContent">Content</label>
-        <textarea name="content" class="form-control" id="InputContent" cols="30" rows="10"></textarea>
+        <textarea name="content" class="form-control" id="InputContent" cols="30" rows="10">[% post.content %]</textarea>
     </div>
+
     <button type="submit" class="btn btn-default">Submit</button>
 </form>

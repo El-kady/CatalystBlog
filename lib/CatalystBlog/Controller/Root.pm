@@ -31,7 +31,7 @@ The root page (/)
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
     $c->stash(posts => [$c->model('DB::Post')->all()]);
-    $c->stash(template => "home.html");
+    $c->stash(template => "frontend/home.html");
 }
 
 =head2 default
