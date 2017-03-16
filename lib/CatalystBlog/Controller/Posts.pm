@@ -23,6 +23,12 @@ Catalyst Controller.
 
 sub base :Chained('/') :PathPart('posts') :CaptureArgs(0) {
     my ($self, $c) = @_;
+
+    if($c->user->manager == 0){
+        $c->response->redirect($c->uri_for("/?no_access"));
+        return;
+    }
+
     $c->stash->{wrapper} = 'backend/wrapper.html';
     $c->stash(resultset => $c->model('DB::Post'));
 }
@@ -35,10 +41,11 @@ sub list :Chained('base'):PathPart('list') :Args(0) {
 
 sub create :Chained('base'):PathPart('create') :Args(0) {
     my ($self, $c) = @_;
+    $c->stash(form_action => $c->uri_for($c->controller->action_for("do_create")));
     $c->stash(template => 'backend/posts/form.html');
 }
 
-sub do_create :Chained('base'):PathPart('do_create') :Args(0) {
+sub do_create :Chained('base') :PathPart('do_create') :Args(0) {
     my ($self, $c) = @_;
 
     my $title = $c->request->params->{title} || "";
@@ -61,6 +68,7 @@ sub do_create :Chained('base'):PathPart('do_create') :Args(0) {
 
 sub object :Chained('base') :PathPart('id') :CaptureArgs(1) {
     my ($self, $c,$id) = @_;
+    $c->stash(object_id => $id);
     $c->stash(object => $c->stash->{resultset}->find($id));
 
 }
@@ -68,10 +76,12 @@ sub object :Chained('base') :PathPart('id') :CaptureArgs(1) {
 sub edit :Chained('object') :PathPart('edit') :Args(0) {
     my ($self, $c) = @_;
     my $post = $c->stash->{object};
+
+    $c->stash(form_action => $c->uri_for($c->controller->action_for("do_edit"),[$c->stash->{object_id}]));
     $c->stash(post => $post,template => 'backend/posts/form.html');
 }
 
-sub do_edit :Chained('object') :PathPart('update') :Args(0) {
+sub do_edit :Chained('object') :PathPart('do_edit') :Args(0) {
     my ($self, $c) = @_;
 
     my $title = $c->request->params->{title} || 'N/A';
