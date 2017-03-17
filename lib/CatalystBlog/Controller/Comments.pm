@@ -21,7 +21,12 @@ Catalyst Controller.
 
 =cut
 
-sub create :Local :Args(0) {
+sub base :Chained('/') :PathPart('comments') :CaptureArgs(0) {
+    my ($self, $c) = @_;
+    $c->stash(resultset => $c->model('DB::Comment'));
+}
+
+sub create :Chained('base'):PathPart('create') :Args(0) {
     my ( $self, $c ) = @_;
     my $post_id = $c->request->params->{post_id} || "";
 
@@ -50,6 +55,18 @@ sub create :Local :Args(0) {
     }
 
     $c->response->redirect($self_url);
+}
+
+sub object :Chained('base') :PathPart('id') :CaptureArgs(1) {
+    my ($self, $c, $id) = @_;
+
+    $c->stash( object => $c->stash->{resultset}->find( $id ) );
+}
+
+sub delete :Chained('object') :PathPart('delete') :Args(0) {
+    my ($self, $c) = @_;
+    $c->stash->{object}->delete;
+    $c->response->redirect($c->uri_for($c->controller('root')->action_for("index")));
 }
 
 

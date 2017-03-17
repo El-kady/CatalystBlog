@@ -1,0 +1,22 @@
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>User Name</th>
+        <th>Options</th>
+    </tr>
+    </thead>
+    <tbody>
+    [% FOREACH user IN users -%]
+        <tr>
+            <td>
+                [% user.name %]
+            </td>
+            <td>
+                <a href="[%c.uri_for(c.controller.action_for('edit'), [user.id]) %]"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                <a href="[%c.uri_for(c.controller.action_for('delete'),[user.id]) %]"><span class="glyphicon glyphicon-remove"></span> Delete</a>
+            </td>
+        </tr>
+    [% END -%]
+    </tbody>
+</table>

@@ -27,6 +27,9 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <strong>[% comment.name %]</strong> <span class="text-muted">[% comment.created_at %]</span>
+                                [% IF c.user.manager %]
+                                    <a href="[% c.uri_for(c.controller('comments').action_for('delete'),[comment.id]) %]"><span class="glyphicon glyphicon-remove"></span></a>
+                                [% END %]
                             </div>
                             <div class="panel-body">
                                 [% comment.comment %]
