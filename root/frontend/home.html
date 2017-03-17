@@ -6,10 +6,13 @@
                 <h2 class="blog-post-title">
                     <a href="[% c.uri_for(c.controller('view').action_for('index'),post.id) %]">[% post.title %]</a>
                 </h2>
-                <p class="blog-post-meta">[% post.created_at %] by <a href="#">Mark</a></p>
-                <p>
+                <p class="blog-post-meta">[% post.created_at %] by [% post.user.name %]</p>
+                <div class="blog-post-preview">
                     [% post.content %]
-                </p>
+                    <p class="read-more">
+                        <a href="[% c.uri_for(c.controller('view').action_for('index'),post.id) %]" class="btn btn-default btn-primary">Read More <span class="glyphicon glyphicon-option-horizontal"></span></a>
+                    </p>
+                </div>
             </div>
         [% END %]
     </div>

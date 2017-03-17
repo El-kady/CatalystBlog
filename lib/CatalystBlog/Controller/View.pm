@@ -21,10 +21,18 @@ Catalyst Controller.
 
 =cut
 
-sub index :Path :CaptureArgs(1){
-    my ( $self, $c,$id ) = @_;
+sub index :Path :CaptureArgs(1) {
+    my ( $self, $c, $id ) = @_;
 
-    $c->response->body('Matched CatalystBlog::Controller::View in View.'.$id);
+    my $post = $c->model('DB::Post')->find($id);
+
+    $post->update({ hits => $post->hits + 1 });
+
+    $c->stash(
+        title => "dsfdsf",
+        post => $post,
+        template => 'frontend/view.html'
+    );
 }
 
 

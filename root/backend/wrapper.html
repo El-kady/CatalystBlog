@@ -7,8 +7,8 @@
 
     <title>[% page.title || "CatalystBlog" %]</title>
 
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/css/blog.css" rel="stylesheet">
+    <link href="[% c.uri_for('/static/css/bootstrap.min.css') %]" rel="stylesheet">
+    <link href="[% c.uri_for('/static/css/blog.css') %]" rel="stylesheet">
 </head>
 
 
@@ -68,8 +68,12 @@
     </p>
 </footer>
 
-<script src="/static/js/jquery-2.0.3.js"></script>
-<script src="/static/js/bootstrap.min.js"></script>
+<script src="[% c.uri_for('/static/js/jquery-2.0.3.js') %]"></script>
+<script src="[% c.uri_for('/static/js/bootstrap.min.js') %]"></script>
+<script type="text/javascript" src="[% c.uri_for('/static/js/nicEdit.js') %]"></script>
+<script>
+    new nicEditor({iconsPath : [% c.uri_for('/static/images/nicEditorIcons.gif') %] }).panelInstance('InputContent');
+</script>
 
 </body>
 </html>

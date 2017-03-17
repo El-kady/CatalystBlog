@@ -25,7 +25,7 @@ sub base :Chained('/') :PathPart('posts') :CaptureArgs(0) {
     my ($self, $c) = @_;
 
     if($c->user->manager == 0){
-        $c->response->redirect($c->uri_for("/?no_access"));
+        $c->response->redirect($c->uri_for("/"));
         return;
     }
 
@@ -55,6 +55,7 @@ sub do_create :Chained('base') :PathPart('do_create') :Args(0) {
         my $post = $c->model('DB::Post')->create({
                 title => $title,
                 content => $content,
+                user_id => $c->user->id
             });
 
         $c->response->redirect($c->uri_for("/posts/list"));

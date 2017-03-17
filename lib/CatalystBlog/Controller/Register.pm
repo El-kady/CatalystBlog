@@ -49,11 +49,16 @@ sub save :Chained('base') :PathPart("save") :Args(0) {
                 password => md5_hex($password)
             });
 
-            $c->response->redirect($c->uri_for("/login"));
-            return;
+            if ($user)
+            {
+                $c->response->redirect($c->uri_for("/login"));
+                return;
+            }else{
+                $c->flash->{error_msg} = "An error occured, please try again.";
+            }
+
         }else{
             $c->flash->{error_msg} = "Please enter valid email.";
-
         }
     } else {
         $c->flash->{error_msg} = "Empty name,email or password.";

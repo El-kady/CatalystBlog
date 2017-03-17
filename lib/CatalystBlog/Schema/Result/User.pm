@@ -95,9 +95,40 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 UNIQUE CONSTRAINTS
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-14 13:52:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:IgHlCX9Bj/vsISS+g6sjpw
+=head2 C<email>
+
+=over 4
+
+=item * L</email>
+
+=back
+
+=cut
+
+__PACKAGE__->add_unique_constraint("email", ["email"]);
+
+=head1 RELATIONS
+
+=head2 posts
+
+Type: has_many
+
+Related object: L<CatalystBlog::Schema::Result::Post>
+
+=cut
+
+__PACKAGE__->has_many(
+  "posts",
+  "CatalystBlog::Schema::Result::Post",
+  { "foreign.user_id" => "self.id" },
+  { cascade_copy => 0, cascade_delete => 0 },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-17 15:25:25
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:J7shP1TFX39hTVD5emJiSA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration

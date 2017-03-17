@@ -58,6 +58,12 @@ __PACKAGE__->table("posts");
 =head2 user_id
 
   data_type: 'integer'
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 hits
+
+  data_type: 'integer'
   default_value: 0
   is_nullable: 0
 
@@ -78,6 +84,8 @@ __PACKAGE__->add_columns(
   "content",
   { data_type => "text", is_nullable => 0 },
   "user_id",
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
+  "hits",
   { data_type => "integer", default_value => 0, is_nullable => 0 },
   "created_at",
   {
@@ -100,9 +108,26 @@ __PACKAGE__->add_columns(
 
 __PACKAGE__->set_primary_key("id");
 
+=head1 RELATIONS
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-14 13:52:41
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:oFRhVLGzSPrrJ54kYioFUQ
+=head2 user
+
+Type: belongs_to
+
+Related object: L<CatalystBlog::Schema::Result::User>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "user",
+  "CatalystBlog::Schema::Result::User",
+  { id => "user_id" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-17 11:22:02
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:+uMhblq9ZAP2N8+c/tZTGQ
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
