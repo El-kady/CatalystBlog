@@ -41,22 +41,19 @@ sub save :Chained('base') :PathPart("save") :Args(0) {
 
     if ($name && $email && $password) {
         my $regex = $email =~ /^[a-z0-9.]+\@[a-z0-9.-]+$/;
-
         if($regex){
-            my $user = $c->model('DB::User')->create({
-                name => $name,
-                email => $email,
-                password => md5_hex($password)
-            });
-
-            if ($user)
-            {
+            my $user_by_email = $c->model('DB::User')->search({email => $email});
+            if ($user_by_email == 1) {
+                $c->flash->{error_msg} = "You can't use this email, its already exists.";
+            } else{
+                my $user = $c->model('DB::User')->create({
+                        name => $name,
+                        email => $email,
+                        password => md5_hex($password)
+                    });
                 $c->response->redirect($c->uri_for("/login"));
                 return;
-            }else{
-                $c->flash->{error_msg} = "An error occured, please try again.";
             }
-
         }else{
             $c->flash->{error_msg} = "Please enter valid email.";
         }

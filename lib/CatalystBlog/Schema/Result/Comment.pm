@@ -1,12 +1,12 @@
 use utf8;
-package CatalystBlog::Schema::Result::Post;
+package CatalystBlog::Schema::Result::Comment;
 
 # Created by DBIx::Class::Schema::Loader
 # DO NOT MODIFY THE FIRST PART OF THIS FILE
 
 =head1 NAME
 
-CatalystBlog::Schema::Result::Post
+CatalystBlog::Schema::Result::Comment
 
 =cut
 
@@ -30,11 +30,11 @@ extends 'DBIx::Class::Core';
 
 __PACKAGE__->load_components("InflateColumn::DateTime");
 
-=head1 TABLE: C<posts>
+=head1 TABLE: C<comments>
 
 =cut
 
-__PACKAGE__->table("posts");
+__PACKAGE__->table("comments");
 
 =head1 ACCESSORS
 
@@ -44,27 +44,28 @@ __PACKAGE__->table("posts");
   is_auto_increment: 1
   is_nullable: 0
 
-=head2 title
+=head2 post_id
+
+  data_type: 'integer'
+  default_value: 0
+  is_foreign_key: 1
+  is_nullable: 0
+
+=head2 name
 
   data_type: 'varchar'
   is_nullable: 0
   size: 255
 
-=head2 content
+=head2 email
+
+  data_type: 'varchar'
+  is_nullable: 0
+  size: 255
+
+=head2 comment
 
   data_type: 'text'
-  is_nullable: 0
-
-=head2 user_id
-
-  data_type: 'integer'
-  is_foreign_key: 1
-  is_nullable: 0
-
-=head2 hits
-
-  data_type: 'integer'
-  default_value: 0
   is_nullable: 0
 
 =head2 created_at
@@ -79,14 +80,19 @@ __PACKAGE__->table("posts");
 __PACKAGE__->add_columns(
   "id",
   { data_type => "integer", is_auto_increment => 1, is_nullable => 0 },
-  "title",
+  "post_id",
+  {
+    data_type      => "integer",
+    default_value  => 0,
+    is_foreign_key => 1,
+    is_nullable    => 0,
+  },
+  "name",
   { data_type => "varchar", is_nullable => 0, size => 255 },
-  "content",
+  "email",
+  { data_type => "varchar", is_nullable => 0, size => 255 },
+  "comment",
   { data_type => "text", is_nullable => 0 },
-  "user_id",
-  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
-  "hits",
-  { data_type => "integer", default_value => 0, is_nullable => 0 },
   "created_at",
   {
     data_type => "timestamp",
@@ -110,39 +116,24 @@ __PACKAGE__->set_primary_key("id");
 
 =head1 RELATIONS
 
-=head2 comments
-
-Type: has_many
-
-Related object: L<CatalystBlog::Schema::Result::Comment>
-
-=cut
-
-__PACKAGE__->has_many(
-  "comments",
-  "CatalystBlog::Schema::Result::Comment",
-  { "foreign.post_id" => "self.id" },
-  { cascade_copy => 0, cascade_delete => 0 },
-);
-
-=head2 user
+=head2 post
 
 Type: belongs_to
 
-Related object: L<CatalystBlog::Schema::Result::User>
+Related object: L<CatalystBlog::Schema::Result::Post>
 
 =cut
 
 __PACKAGE__->belongs_to(
-  "user",
-  "CatalystBlog::Schema::Result::User",
-  { id => "user_id" },
+  "post",
+  "CatalystBlog::Schema::Result::Post",
+  { id => "post_id" },
   { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-17 17:43:18
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:q4F+PWWAEGAAxMsAcYLzyg
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-03-17 18:01:59
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ITlVtGaxQGXQuvY1kLjxUw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
